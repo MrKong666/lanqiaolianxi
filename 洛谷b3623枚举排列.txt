@@ -1,0 +1,51 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+using PII=pair<int,int>;
+int v[2010],st[20];
+ int n,k,ans;
+ void dfs(int x){
+ 	if(x==k){
+ 		for(int i=0;i<k-1;i++)cout<<v[i]<<" ";
+ 		cout<<v[k-1]<<"\n";
+	 }
+	 for(int i=1;i<=n;i++){
+	 	if(!st[i]){
+	 		st[i]=1;
+	 		v[x]=i;
+	 		dfs(x+1);
+	 		
+	 		st[i]=0;
+	 		
+		 }
+	 }
+ }
+int main() {
+   cin>>n>>k;
+   dfs(0);
+    return 0;
+
+}
+ 
+ 
+
+
+py：
+t = list(map(int,input().split()))
+n,k=t[0],t[1]
+v=[0]*20
+st=[0]*20
+def dfs(x):
+    if(x==k):
+        for i in range(0,k-1):
+            print(v[i],end=" ")
+        print(v[k-1])
+        return
+    for i in range(1,n+1):
+        if(st[i]==0):
+            st[i]=1
+            v[x]=i
+            dfs(x+1)
+            st[i]=0
+
+dfs(0)
