@@ -1,0 +1,149 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+using PII=pair<int,int>;
+
+ int m,n,k,ans;
+vector<string>v;
+bool st[1000][1000];
+int dis[8][2]={1,0,-1,0,0,1,0,-1,1,1,1,-1,-1,1,-1,-1};
+void dfs(int x,int y){
+	 
+	for(int i=0;i<8;i++){
+		int nx=x+dis[i][0],ny=y+dis[i][1];
+		if(nx<0||ny<0||nx>=m||ny>=n)continue;
+		if(st[nx][ny]||v[nx][ny]!='W')continue;
+		
+		st[nx][ny]=1;
+		dfs(nx,ny);
+	}
+}
+int main() {
+   cin>>m>>n;
+   string s;
+   for(int i=0;i<m;i++){
+   	cin>>s;
+   	v.push_back(s);
+   }
+   for(int i=0;i<m;i++){
+   	for(int j=0;j<n;j++){
+   		if(v[i][j]=='W'&&!st[i][j]){
+   			dfs(i,j);
+   			ans++;
+		   }
+	   }
+   }
+   cout<<ans;
+    return 0;
+
+}
+//dfs
+#include<bits/stdc++.h>
+using namespace std;
+using PII=pair<int,int>;
+
+ int m,n,k,ans;
+vector<string>v;
+bool st[1000][1000];
+int dis[8][2]={1,0,-1,0,0,1,0,-1,1,1,1,-1,-1,1,-1,-1};
+void bfs(int x,int y){
+	 
+	queue<PII>q;
+	q.push({x,y});
+	while(q.size()){
+		auto cur=q.front();
+		q.pop();
+		int x=cur.first,y=cur.second;
+		for(int i=0;i<8;i++){
+			int nx=x+dis[i][0],ny=y+dis[i][1];
+			if(nx<0||ny<0||nx>=m||ny>=n)continue;
+			if(st[nx][ny]||v[nx][ny]!='W')continue;
+			st[nx][ny]=1;
+			q.push({nx,ny});
+		}
+	}
+}
+int main() {
+   cin>>m>>n;
+   string s;
+   for(int i=0;i<m;i++){
+   	cin>>s;
+   	v.push_back(s);
+   }
+   for(int i=0;i<m;i++){
+   	for(int j=0;j<n;j++){
+   		if(v[i][j]=='W'&&!st[i][j]){
+   			bfs(i,j);
+   			ans++;
+		   }
+	   }
+   }
+   cout<<ans;
+    return 0;
+
+}
+ //bfs
+
+py：
+
+import sys
+sys.setrecursionlimit(1000000000)  # 重新设置递归次数
+t=list(map(int,input().split()))
+m,n=t[0],t[1]
+v=[]
+ans=0
+st=[[0]*1000 for _ in range(1000)]
+dis=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]
+def dfs(x,y):
+    for i in range(0,8):
+        nx,ny=x+dis[i][0],y+dis[i][1]
+        if(nx<0 or ny <0 or nx>=m or ny >=n):
+            continue
+        if(st[nx][ny] or v[nx][ny]!="W"):
+            continue
+        st[nx][ny]=1
+        dfs(nx,ny)
+for i in range(0,m):
+    v.append(input())
+for i in range(0,m):
+    for j in range(0,n):
+        if(v[i][j]=='W' and st[i][j]==0):
+            dfs(i,j)
+            ans+=1
+
+print(ans)
+//dfs（注意设置递归层数，不然会报错）
+import sys
+from collections import *
+sys.setrecursionlimit(1000000000)  # 重新设置递归次数
+t=list(map(int,input().split()))
+m,n=t[0],t[1]
+v=[]
+ans=0
+st=[[0]*1000 for _ in range(1000)]
+dis=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]
+def bfs(x,y):
+    q= deque()
+    q.append([x,y])
+    st[x][y]=1
+    while(len(q)):
+        cur=q.popleft()
+        x,y=cur[0],cur[1]
+        for i in range(0, 8):
+            nx, ny = x + dis[i][0], y + dis[i][1]
+            if (nx < 0 or ny < 0 or nx >= m or ny >= n):
+                continue
+            if (st[nx][ny] or v[nx][ny] != "W"):
+                continue
+            st[nx][ny] = 1
+            q.append([nx,ny])
+for i in range(0,m):
+    v.append(input())
+for i in range(0,m):
+    for j in range(0,n):
+        if(v[i][j]=='W' and st[i][j]==0):
+            bfs(i,j)
+            ans+=1
+
+print(ans)
+//bfs
