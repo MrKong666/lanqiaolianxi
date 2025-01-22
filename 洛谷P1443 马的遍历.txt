@@ -1,0 +1,78 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+using PII=pair<int,int>;
+
+ int m,n,k,ans,a,b;
+int v[1000][1000];
+bool st[1000][1000];
+int dis[8][2]={1,2,1,-2,-1,2,-1,-2,2,1,2,-1,-2,1,-2,-1};
+void bfs(int x,int y){
+	 queue<PII>q;
+	 q.push({x,y});
+	 v[x][y]=0;
+	 st[x][y]=1;
+	 while(q.size()){
+	 	auto cur=q.front();q.pop();
+	 	for(int i=0;i<8;i++){
+	 		int nx=cur.first+dis[i][0];
+	 		int ny=cur.second+dis[i][1];
+	 		if(nx<0||ny<0||nx>=m||ny>=n)continue;
+	 		if(st[nx][ny])continue;
+	 		st[nx][ny]=1;
+	 		v[nx][ny]=v[cur.first][cur.second]+1;
+	 		q.push({nx,ny});
+		 }
+	 }
+	 
+}
+int main() {
+   cin>>m>>n>>a>>b;
+   memset(v,-1,sizeof v);
+   bfs(a-1,b-1);
+   for(int i=0;i<m;i++){
+   	for(int j=0;j<n;j++){
+   	 printf("%-5d", v[i][j]);
+	   }
+	   puts("");
+   }
+    return 0;
+
+}
+ 
+ 
+
+py：
+
+import sys
+from collections import *
+sys.setrecursionlimit(1000000000)  # 重新设置递归次数
+t=list(map(int,input().split()))
+m,n,a,b=t[0],t[1],t[2],t[3]
+
+v=[[-1]*1000 for _ in range(1000)]
+ans=0
+st=[[0]*1000 for _ in range(1000)]
+dis=[[1,2],[1,-2],[2,1],[2,-1],[-1,2],[-1,-2],[-2,1],[-2,-1]]
+def bfs(x,y):
+    q=deque()
+    st[x][y]=1
+    v[x][y]=0
+    q.append([x,y])
+    while(len(q)):
+        cur=q.popleft()
+        for i in range(8):
+            nx=cur[0]+dis[i][0]
+            ny=cur[1]+dis[i][1]
+            if(nx<0 or ny <0 or nx>=m or ny >=n):
+                continue
+            if(st[nx][ny]):
+                continue
+            st[nx][ny]=1
+            v[nx][ny]=v[cur[0]][cur[1]]+1
+            q.append([nx,ny])
+bfs(a-1,b-1)
+for i in range(m):
+    for j in range(n):
+        print("%-5d"%v[i][j],end="")
+    print()
