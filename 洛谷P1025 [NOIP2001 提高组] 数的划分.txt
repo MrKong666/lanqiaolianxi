@@ -1,0 +1,49 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+using PII=pair<int,int>;
+
+ int m,n,k,ans,a,b;
+
+void dfs(int x,int sum,int st){
+	if(sum>n)return;
+	if(x>=k){
+		if(sum==n)ans++;
+		return;
+	}
+	for(int i=st;sum+(k-x)*i<=n;i++){
+		dfs(x+1,sum+i,i);
+	}
+}
+int main() {
+   cin>>n>>k;
+   dfs(0,0,1);
+   cout<<ans;
+    return 0;
+
+}
+ 
+ 
+ 
+
+py：
+
+import sys
+from collections import *
+from functools import *
+sys.setrecursionlimit(1000000000)  # 重新设置递归次数
+t=list(map(int,input().split()))
+n,k=t[0],t[1]
+@cache
+def dfs(x,sum,st):
+    if(sum>n):
+        return 0
+    if(x>=k):
+        return sum==n
+    res=0
+    i=st
+    while(sum+(k-x)*i<=n):
+        res+=dfs(x+1,sum+i,i)
+        i+=1
+    return res
+print(dfs(0,0,1))
