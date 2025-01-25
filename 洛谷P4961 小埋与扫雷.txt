@@ -1,0 +1,67 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+using PII=pair<int,int>;
+
+ int m,n,k,ans,a,b;
+
+int v[1010][1010];
+int st[1010][1010];
+
+void dfs(int x,int y){
+	st[x][y]=1;
+	if(v[x][y]!=0)return;
+	for(int i=x-1;i<=x+1;i++){
+		for(int j=y-1;j<=y+1;j++){
+			if(i<0||j<0||i>=m||j>=n)continue;
+			if(v[i][j]==-1||st[i][j])continue;
+			dfs(i,j);
+		}
+	}
+}
+int main() {
+   cin>>m>>n;
+   for(int i=0;i<m;i++){
+   	for(int j=0;j<n;j++){
+   		cin>>v[i][j];
+   		if(v[i][j]==1)v[i][j]=-1;
+	   }
+   }
+   for(int i=0;i<m;i++){
+   	for(int j=0;j<n;j++){
+   		if(v[i][j]==0){
+   			for(int x=i-1;x<=i+1;x++){
+   			for(int y=j-1;y<=j+1;y++){
+   				if(x<0||y<0||x>=m||y>=n)continue;
+   				if(v[x][y]==-1)v[i][j]++;
+			   }
+		   }
+		   }
+	   }
+   }
+   for(int i=0;i<m;i++){
+   	for(int j=0;j<n;j++){
+   		if(!st[i][j]&&v[i][j]==0){
+   			ans++;
+   			dfs(i,j);
+		   }
+	   }
+   }
+    for(int i=0;i<m;i++){
+   	for(int j=0;j<n;j++){
+   		if(!st[i][j]&&v[i][j]!=-1){
+   			ans++;
+   			
+		   }
+	   }
+   }
+   cout<<ans;
+    return 0;
+
+}
+ 
+ 
+ 
+
+py：
+该题py时间受限似乎不能ac
