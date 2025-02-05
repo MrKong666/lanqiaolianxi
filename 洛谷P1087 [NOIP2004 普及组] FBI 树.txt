@@ -1,0 +1,67 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+using PII=pair<int,int>;
+
+ int m,n,k,ans,a,b;
+
+string s;
+int dfs(int l,int r){
+	if(r-l==1){
+		if(s[l]=='1'){
+			cout<<'I';
+			return 1;
+		}
+		else{
+			cout<<'B';
+			return 0;
+		}
+	}
+	int mid=l+(r-l)/2;
+    int a=dfs(l,mid);
+	int b=dfs(mid,r);
+	if(a!=3&&a==b){
+		cout<<(a==1?'I':'B');
+		return a;
+	}
+	else{
+		cout<<"F";
+		return 3;
+	}
+}
+int main() {
+    cin>>n>>s;
+    dfs(0,s.size());
+    return 0;
+
+}
+ 
+ 
+ 
+ 
+ 
+
+py：
+n=int(input())
+s=input()
+def dfs(l,r):
+    if(r-l==1):
+        if(s[l]=='1'):
+            print('I',end='')
+            return 1
+        else:
+            print('B', end='')
+            return 0
+    mid=(l+r)//2
+    a=dfs(l,mid)
+    b=dfs(mid,r)
+    if(a!=3 and a==b):
+        if(a==1):
+            print('I', end='')
+        else:
+            print('B', end='')
+        return a
+    else:
+        print('F', end='')
+        return 3
+dfs(0,(1<<n))
