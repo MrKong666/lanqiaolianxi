@@ -1,0 +1,69 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+using PII=pair<int,int>;
+
+ int m,n,k,ans,a,b;
+int main() {
+    cin>>a>>b;
+	ans=INT_MAX;
+function<void(int,int)>	f=[&](int x,int sum){
+		if(sum>=ans)return;
+		if(x==b){
+			ans=min(ans,sum);
+			return;
+		}	
+		
+		if(x>b){
+			f(x-1,sum+1);
+			f(x-5,sum+1);
+			f(x-10,sum+1);
+			
+			
+		}
+		else{
+			f(x+1,sum+1);
+			f(x+5,sum+1);
+			f(x+10,sum+1);
+		    
+			
+		}
+		
+	};
+	f(a,0);
+	cout<<ans<<endl;
+    return 0;
+
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+py：
+import sys
+from collections import *
+
+sys.setrecursionlimit(1000000000)  # 重新设置递归次数
+t=list(map(int,input().split()))
+m,n=t[0],t[1]
+ans=12345
+def f(x,sum):
+    global ans
+    if(sum>=ans):
+        return
+    if(x==n):
+        ans=min(ans,sum)
+    if(x>n):
+        f(x-1,sum+1)
+        f(x-5,sum+1)
+        f(x-10,sum+1)
+    else:
+        f(x + 1, sum + 1)
+        f(x + 5, sum + 1)
+        f(x + 10,sum+1)
+f(m,0)
+print(ans)
