@@ -1,0 +1,51 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const int N=1e5+10;
+ll ans=0;
+const int mod=998244353;
+void f(string zhong,string hou){
+	if(zhong.size()>0){
+		auto t=hou.back();
+		cout<<t;
+		int idx=zhong.find(t);
+		f(zhong.substr(0,idx),hou.substr(0,idx));
+		f(zhong.substr(idx+1),hou.substr(idx,zhong.size()-idx-1));
+	}
+}
+int main(){
+	string s,s1;
+	cin>>s>>s1;
+	f(s,s1); 
+	
+	
+	
+	return 0;
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+py：
+import sys
+from collections import *
+
+sys.setrecursionlimit(1000000000)  # 重新设置递归次数
+s=input().strip()
+s1=input().strip()
+def f(zhong,hou):
+    if(len(zhong)>0):
+        t=hou[-1]
+        print(t,end="")
+        idx=str(zhong).find(t)
+        f(zhong[:idx],hou[:idx])
+        f(zhong[idx+1:],hou[idx:len(hou)-1])
+
+f(s,s1)
+print()
