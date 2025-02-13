@@ -1,0 +1,132 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef pair<int,int> PII; 
+
+
+const int N=1100;
+int n,m;
+int v[N][N];
+int st[N][N];
+int ans=0,sum=0;
+int dis[8][2]={1,0,-1,0,0,1,0,-1,1,1,1,-1,-1,1,-1,-1};
+
+void dfs(int x,int y){
+	if(x>m){
+		ans=max(ans,sum);
+		return;
+	}
+	if(y>n){
+		dfs(x+1,1);
+		return;
+	}
+	dfs(x,y+1);
+	if(!st[x][y]){
+		st[x][y]++;
+		sum+=v[x][y];
+		for(int i=0;i<8;i++){
+			st[x+dis[i][0]][y+dis[i][1]]++;
+		}
+		dfs(x,y+1);
+		for(int i=0;i<8;i++){
+			st[x+dis[i][0]][y+dis[i][1]]--;
+		}
+		sum-=v[x][y];
+		st[x][y]--;
+	}
+}
+
+
+int main()
+{
+	int t;cin>>t;
+	while(t--){
+		cin>>m>>n;
+		memset(v,0,sizeof v);
+		sum=0;
+		ans=0;
+		memset(st,0,sizeof st);
+		for(int i=1;i<=m;i++){
+			for(int j=1;j<=n;j++){
+				cin>>v[i][j];
+			}
+		}
+		dfs(1,1);
+		cout<<ans<<"\n";
+	} 
+	return 0;	
+}
+
+
+int main()
+{
+	cin>>n>>m;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			char c;
+			cin>>c;
+			if(c=='0')v[i][j]=0;
+			else v[i][j]=1;
+		}
+	}
+	for(int i=0;i<m;i++){
+		int a,b;cin>>a>>b;
+		if(!st[a-1][b-1])
+		cout<<bfs(a-1,b-1)<<"\n";
+		else{
+			cout<<t[mp[a-1][b-1]]<<"\n";
+		}
+	}
+	return 0;	
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+py：（py爆搜无法ac，ac需要状压dp）
+    from sys import stdin
+from collections import deque
+t=int(input())
+while(t):
+    t-=1
+    n, m = map(int, input().split())
+    v = []
+
+    for i in range(n):
+        v.append(list(map(int,input().strip().split(" "))))
+
+    dis = [(1, 0), (-1, 0), (0, 1), (0, -1),(1,1),(1,-1),(-1,1),(-1,-1)]
+    st = [[0] * 1000 for _ in range(1000)]
+    sum,ans=0,0
+    def dfs(x,y):
+        global ans,sum
+        if(y>=m):
+            dfs(x+1,0)
+            return
+        if(x>=n):
+            ans=max(ans,sum)
+            return
+        dfs(x,y+1)
+        if(st[x][y]==0):
+            st[x][y]+=1
+            sum+=v[x][y]
+            for i in dis:
+                nx,ny=x+i[0],y+i[1]
+                if(nx<0 or ny<0 or nx>=n or ny>=m):
+                    continue
+                st[nx][ny]+=1
+            dfs(x,y+1)
+            for i in dis:
+                nx,ny=x+i[0],y+i[1]
+                if(nx<0 or ny<0 or nx>=n or ny>=m):
+                    continue
+                st[nx][ny]-=1
+            sum-=v[x][y]
+            st[x][y]-=1
+    dfs(0,0)
+    print(ans)
