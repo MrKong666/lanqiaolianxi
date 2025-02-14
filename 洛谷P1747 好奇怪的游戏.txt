@@ -1,0 +1,90 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef pair<int,int> PII; 
+
+
+const int N=1100;
+int n,m;
+int v[N][N];
+int st[N][N];
+int ans=0,sum=0;
+int dis[12][2]={2,1,1,2,-2,1,-1,2,2,-1,1,-2,-1,-2,-2,-1,2,2,2,-2,-2,2,-2,-2};
+
+int bfs(int x,int y){
+	queue<array<int,3>>q;
+	q.push({x,y,0});
+	st[x][y]=1;
+	while(q.size()){
+		auto cur=q.front();
+		q.pop();
+		if(cur[0]==1&&cur[1]==1){
+			return cur[2];
+		}
+		for(int i=0;i<12;i++){
+			int nx=cur[0]+dis[i][0];
+			int ny=cur[1]+dis[i][1];
+			if(nx<=0||ny<=0)continue;
+			if(st[nx][ny])continue;
+			st[nx][ny]=1;
+			q.push({nx,ny,cur[2]+1});
+		}
+	}	
+	return -1;
+};
+
+
+int main()
+{
+ 	int a,b;
+	cin>>a>>b;
+	cout<<bfs(a,b)<<"\n";
+	 cin>>a>>b;
+	 memset(st,0,sizeof(st));
+	cout<<bfs(a,b)<<"\n";
+	return 0;	
+}
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+py：
+from sys import stdin
+from collections import deque
+t=2
+while(t):
+    t-=1
+    n, m = map(int, input().split())
+
+    dis = [(2,1),(1,2),(-2,1),(-1,2),(2,-1),(1,-2),(-1,-2),(-2,-1),(2,2),(2,-2),(-2,2),(-2,-2)]
+    st = [[0] * 1000 for _ in range(1000)]
+    def bfs(x,y):
+        q=deque()
+        q.append([x,y,0])
+        st[x][y]=1
+        while(q):
+            t=q.popleft()
+            x,y,step=t[0],t[1],t[2]
+            if(x==1 and y==1):
+                return step
+            for i in dis:
+                nx,ny=x+i[0],y+i[1]
+                if(nx<=0 or ny<=0 or nx>1000 or ny>1000):
+                    continue
+                if(st[nx][ny]):
+                    continue
+                st[nx][ny]=1
+                q.append([nx,ny,step+1])
+        return  -1
+    print(bfs(n,m))
+
+
+
