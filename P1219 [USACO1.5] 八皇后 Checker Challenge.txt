@@ -1,0 +1,127 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef pair<int,int> PII; 
+
+
+const int N=1100;
+int n,m,k;
+int ans=0,sum=0;
+vector<int>res;//存答案
+int st[20];//某列是否有皇后
+bool g[20][20];//记录皇后 
+void print(){//找到结果后的输出
+	if(sum<3){
+		for(auto&i:res){
+			cout<<i<<" ";
+		}
+		cout<<"\n";
+	} 
+	sum++;
+	
+}
+bool f(int x,int y){//判断该位置是否合法 
+	//左上
+	for(int i=x,j=y;i>-1&&j>-1;i--,j--){
+		if(g[i][j])return 0;
+	} 
+	//右上 
+		for(int i=x,j=y;i>-1&&j<n;i--,j++){
+		if(g[i][j])return 0;
+	}  
+	//因为是从上往下枚举的，只需要判断上面就行了 
+	return 1;
+}
+void dfs(int x){//枚举所有行 
+	if(x>=n){//到达最后一行 
+		print();
+		return;
+	}
+	//枚举每一列是否可行
+	for(int i=0;i<n;i++){
+		if(!st[i]&&f(x,i)){
+			st[i]=1;
+			g[x][i]=1;
+			res.push_back(i+1); 
+			dfs(x+1);
+			res.pop_back();
+			st[i]=0;
+			g[x][i]=0;
+		}
+	} 
+} 
+ 
+
+int main()
+{
+  	cin>>n;
+  	dfs(0);
+  	cout<<sum;
+	return 0;	
+}
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+py：（有2个样例过不了，过的全是输出答案）
+
+from sys import stdin
+from collections import deque
+n=int(input())
+ans=[]
+g=[[0 for _ in range(20)] for _ in range(20)]
+st=[0]*20
+sum=0
+def print1():
+    global sum
+    if(sum<3):
+        for i in ans:
+            print(i,end=" ")
+        print()
+    sum+=1
+def f(x,y):
+    i,j=x,y
+    while(i>-1 and j>-1):
+        if(g[i][j]):return 0
+        i-=1
+        j-=1
+    i,j=x,y
+    while(i>-1 and j<n):
+        if (g[i][j]): return 0
+        i -= 1
+        j += 1
+    return 1
+def dfs(x):
+
+    if(x>=n):
+        print1()
+        return
+    for i in range(n):
+        if(st[i]==0 and f(x,i)):
+            st[i]=1
+            g[x][i]=1
+            ans.append(i+1)
+            dfs(x+1)
+            ans.pop()
+            g[x][i]=0
+            st[i]=0
+
+dfs(0)
+print(sum)
+
+
+
+
+
+
+
+
+
+
