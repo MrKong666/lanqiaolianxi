@@ -1,0 +1,160 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+ 
+typedef pair<int,int> PII; 
+ 
+ 
+const int N=5000;
+int n,m,k;
+int zuo,you;
+int ans=0,sum=0;
+int st[N][N];
+char v[N][N];
+array<int,2>p[N][N];//记录一个点向左向右次数 
+int dis[4][2]={1,0,-1,0,0,1,0,-1};
+//这个题向左向右有限制，距离最短不一定是向左向右最小 
+int bfs(int x,int y){
+	ans=1;
+	queue<array<int,4>>q;
+	st[x][y]=1;
+	q.push({x,y,0,0});
+	while(q.size()){
+		auto cur=q.front();q.pop();
+		//cout<<cur[0]<<" "<<cur[1]<<"\n";
+		for(int i=0;i<4;i++){
+			int nx=cur[0]+dis[i][0];
+			int ny=cur[1]+dis[i][1];
+			if(nx<0||ny<0||nx>=m||ny>=n)continue;
+			if(v[nx][ny]=='*')continue;
+			int a=cur[2],b=cur[3];//判断左右走是否超出限制 
+			if(i==2)a++;
+			if(i==3)b++;
+			if(a>you)continue;
+			if(b>zuo)continue;
+			if(!st[nx][ny]){
+				st[nx][ny]=1;
+				q.push({nx,ny,a,b});
+				p[nx][ny][0]=a;
+				p[nx][ny][1]=b;
+				ans++;
+			} 
+			else if(a<p[nx][ny][0]||b<p[nx][ny][1]){
+				q.push({nx,ny,a,b});
+				p[nx][ny][0]=a;
+				p[nx][ny][1]=b;
+			}
+		}
+	}
+	
+	
+	return ans;
+}
+ 
+int main()
+{
+  	cin>>m>>n;
+	int a,b;
+	cin>>a>>b;
+	cin>>zuo>>you;
+	for(int i=0;i<m;i++){
+		for(int j=0;j<n;j++){
+			cin>>v[i][j];
+		}
+	}
+	cout<<bfs(a-1,b-1);
+	return 0;	
+}
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+py：（py大帝拼尽全力无法战胜）
+
+from sys import stdin
+from sys import stdin
+from collections import deque
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    idx = 0
+    m, n = int(data[idx]), int(data[idx+1])
+    idx += 2
+    a, b = int(data[idx]), int(data[idx+1])
+    idx += 2
+    left, right = int(data[idx]), int(data[idx+1])
+    idx += 2
+    
+    v = []
+    for _ in range(m):
+        v.append(data[idx])
+        idx +=1
+    
+    dis = [(1,0), (-1,0), (0,1), (0,-1)]
+    
+    # 动态设置大小
+    st = [[0 for _ in range(n)] for _ in range(m)]
+    p = [[[0,0] for _ in range(n)] for _ in range(m)]
+    
+    def bfs(start_x, start_y):
+        ans = 1
+        q = deque()
+        q.append([start_x, start_y, 0, 0])
+        st[start_x][start_y] = 1
+        p[start_x][start_y] = [0, 0]
+        
+        while q:
+            x, y, a, b = q.popleft()
+            for i in range(4):
+                nx = x + dis[i][0]
+                ny = y + dis[i][1]
+                
+                if nx < 0 or ny < 0 or nx >= m or ny >= n:
+                    continue
+                if v[nx][ny] != '.':
+                    continue
+                
+                new_a, new_b = a, b
+                if i == 2:
+                    new_a += 1
+                elif i == 3:
+                    new_b += 1
+                
+                if new_a > right or new_b > left:
+                    continue
+                
+                if st[nx][ny] == 0:
+                    st[nx][ny] = 1
+                    p[nx][ny] = [new_a, new_b]
+                    q.append([nx, ny, new_a, new_b])
+                    ans += 1
+                elif new_a < p[nx][ny][0] or new_b < p[nx][ny][1]:
+                    p[nx][ny][0] = new_a
+                    p[nx][ny][1] = new_b
+                    q.append([nx, ny, new_a, new_b])
+        
+        return ans
+    
+    # 注意：a 和 b 是以 1 为起始，需要减 1 转换为 0 基
+    print(bfs(a-1, b-1))
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+
+
+
