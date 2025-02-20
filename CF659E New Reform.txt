@@ -1,0 +1,73 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+ 
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=5000;
+int n,m,k;
+int zuo,you;
+int ans=0,sum=0;
+int st[100010];
+vector<ll>v[100010];
+int dis[4][2]={1,0,-1,0,0,1,0,-1};
+/*如果有环，那么环上的所有点都可以被访问到，所以对答案的贡献就是0
+否则就是树（无环图就是树）根节点无法被访问到，答案加一*/
+int flag;
+int dfs(int x,int fa){
+	st[x]=1;
+	for(auto i:v[x]){
+		if(i!=fa){
+			if(st[i]){
+				flag=0;
+				continue;
+			}	
+			dfs(i,x);
+		}
+		 
+		
+	}	
+	
+	return 1;
+}
+int main()
+{
+  	cin>>n>>m;
+	for(int i=0;i<m;i++){
+		int a,b;
+		cin>>a>>b;
+		v[a].push_back(b);
+		v[b].push_back(a);
+	}
+	for(int i=1;i<=n;i++){
+		if(!st[i]){
+			flag=1;
+			dfs(i,-1);
+			ans+=flag;
+			 
+		}
+	}
+	cout<<ans;
+	//for(int i=1;i<=n;i++)cout<<st[i]<<" ";
+	return 0;	
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+py：（py大帝拼尽全力无法战胜）
+
+
+
+
+
+
+
+
+
+
