@@ -1,0 +1,89 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=5000,mod=998244353;
+int n,m,k;
+int zuo,you;
+ll ans=0,sum=0;
+int st[100010];
+vector<ll>v,t,path;
+int dis[4][2]={1,0,-1,0,0,1,0,-1};
+int ksm(int a,int b){
+	int res=1;
+	while(b){
+		if(b&1){
+			res*=a;
+			res%=mod;
+		}
+		a*=a;
+		a%=mod;
+		b>>=1;
+	}
+	return res;
+}
+signed main()
+{	
+	queue<int>q;
+	ans=1;
+	q.push(1);
+	cin>>n;
+	while(n--){
+		int a,b;
+		cin>>a;
+		if(a==3){
+			cout<<ans<<"\n";
+		}
+		else if(a==2){
+			auto t=q.front();q.pop();
+			m=q.size();
+			ans=(ans-(t*ksm(10,m))%mod+mod)%mod;
+		}
+		else if(a==1){
+			cin>>b;
+			q.push(b);
+			ans=(ans*10+b)%mod;
+		}
+	}
+	
+	return 0;	
+}
+ 
+ 
+ 
+ 
+
+py： 
+
+import sys
+from cmath import inf
+from sys import stdin
+from collections import deque
+from collections import defaultdict
+sys.setrecursionlimit(1000000000)
+n=int(input())
+q=deque()
+q.append(1)
+ans=1
+mod=998244353
+for i in range(n):
+    a=list(map(int,input().split()))
+    if(a[0]==1):
+        ans=(ans*10+a[1])%mod
+        q.append(a[1])
+    if(a[0]==2):
+        m=len(q)-1
+        t=q.popleft()
+        ans=(ans-t*pow(10,m,mod)%mod+mod)%mod
+    if(a[0]==3):
+        print(ans)
+
+
+
+
+
+
+
