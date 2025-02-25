@@ -1,0 +1,134 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+//#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=5000,mod=998244353;
+int n,m,k;
+int zuo,you;
+ll ans=0,sum=0;
+int dis[4][2]={1,0,-1,0,0,1,0,-1};
+int st[N][N];
+int v[N][N];
+int p[N][N];//存储最小值 
+class node{
+	public:
+		int x, y, color, magic, money;
+	/*
+	 * {x,y}：当前的坐标
+	 * color：坐标的颜色
+	 * magic：是否使用了魔法
+	 * money：使用的金币数
+	 */
+};
+int bfs(int x,int y){
+	queue<node>q;
+	q.push({x,y,v[x][y],0,0});//第五个是否使用魔法，第4个花费 
+	p[x][y]=0;
+	while(q.size()){
+		auto cur=q.front();q.pop();
+		
+		for(int i=0;i<4;i++){
+			int nx=cur.x+dis[i][0];
+			int ny=cur.y+dis[i][1];
+			if(nx<=0||ny<=0||nx>m||ny>m)continue;
+			if(v[nx][ny]==0&&cur.magic)continue;
+			node nxt={nx,ny,0,0,0};
+			int cost=0;
+			if(v[nx][ny]>0){//下个点有颜色，不用魔法
+				if(v[nx][ny]!=cur.color)cost=1; 
+				nxt.color=v[nx][ny];
+				nxt.magic=0; 
+			} 
+			else{//下个点没颜色可以用魔法
+				cost=2;
+				nxt.magic=1;
+				nxt.color=cur.color;
+			}
+			nxt.money=cost+cur.money;
+			if(nxt.money<p[nx][ny]){
+				p[nx][ny]=nxt.money;
+				q.push(nxt);
+			} 
+			
+		}
+	}
+	if(p[m][m]!=0x3f3f3f3f)return p[m][m];
+	return -1;
+}
+signed main()
+{	
+	 
+	 memset(p,0x3f,sizeof p);
+	 cin>>m>>n;
+	 for(int i=0;i<n;i++){
+	 	int a,b,c;
+	 	cin>>a>>b>>c;
+	 	v[a][b]=c+1;
+	 } 
+	   
+	 cout<<bfs(1,1);
+	
+	return 0;	
+}
+ 
+ 
+ 
+
+py： 
+
+import sys
+from cmath import inf
+from sys import stdin
+from collections import deque
+from collections import defaultdict
+sys.setrecursionlimit(1000000000)
+m,n=list(map(int,input().split()))
+dis=[(1,0),(-1,0),(0,1),(0,-1)]
+v=[[-1 for _ in range(2000)]for _ in range(2000)]
+p=[[int(1e9) for _ in range(2000)]for _ in range(2000)]
+for i in range(n):
+    a,b,c=list(map(int,input().split()))
+    v[a][b]=c
+def bfs(x,y):
+    q=deque()
+    p[x][y]=0
+    q.append([x,y,v[x][y],0,0])
+    # x,y是位置，第三个是颜色，第四个是花费，第五个是魔法
+    while(q):
+        cur=q.popleft()
+        for i in dis:
+            nx=cur[0]+i[0]
+            ny=cur[1]+i[1]
+            if(nx<1 or ny<1 or nx>m or ny>m):
+                continue
+            if(v[nx][ny]==-1 and cur[4]):
+                continue
+            cost=0
+            nxt=[nx,ny,0,0,0]
+            if(v[nx][ny]!=-1):#下一个位置有颜色
+                if(v[nx][ny]!=cur[2]):
+                    cost=1
+                nxt[2]=v[nx][ny]
+            else:#没颜色要用魔法
+                cost=2
+                nxt[4]=1
+                nxt[2]=cur[2]
+            nxt[3]=cur[3]+cost
+            if(nxt[3]<p[nx][ny]):
+                p[nx][ny]=nxt[3]
+                q.append(nxt)
+    if(p[m][m]==int(1e9)):
+        return -1
+    return p[m][m]
+
+print(bfs(1,1))
+
+
+
+
+
+
+
