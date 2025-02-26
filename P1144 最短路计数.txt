@@ -1,0 +1,102 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+//#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=1e6+10,mod=1e5+3;
+int n,m,k;
+int zuo,you;
+ll ans=0,sum=0;
+int dis[N];
+vector<vector<int>>v(N);
+int res[N];
+bool st[N];
+void dijie(int x){
+	res[x]=1;
+	dis[x]=0;
+	queue<int>q;
+	q.push({x});
+	while(q.size()){
+		auto cur=q.front();q.pop();
+		if(st[cur])continue;
+		st[cur]=1;
+		for(auto&i:v[cur]){
+			if(dis[i]>dis[cur]+1){
+				dis[i]=dis[cur]+1;
+				res[i]=res[cur];
+				q.push({i});
+			}
+			else if(dis[i]==dis[cur]+1){
+				res[i]+=res[cur];
+				res[i]%=mod;
+			}
+		}
+	}
+}
+signed main()
+{	
+	 memset(dis,0x3f,sizeof dis);
+	 cin>>n>>m;
+	 for(int i=0;i<m;i++){
+	 	int a,b;cin>>a>>b;
+	 	v[a].push_back(b);
+	 	v[b].push_back(a);
+	 }
+	 dijie(1);
+	 for(int i=1;i<=n;i++){
+	 	cout<<res[i]<<"\n";
+	 }
+	
+	return 0;	
+}
+ 
+ 
+
+py： （py大帝又拼劲全力了）
+
+import sys
+from cmath import inf
+from sys import stdin
+from collections import deque
+from collections import defaultdict
+sys.setrecursionlimit(1000000000)
+m,n=list(map(int,input().split()))
+v=[[]for i in range(m+10)]
+st=[0 for i in range(m+10)]
+dis=[inf for i in range(m+10)]
+ans=st.copy()
+for i in range(n):
+    a,b=list(map(int,input().split()))
+    v[a].append(b)
+    v[b].append(a)
+
+def bfs(x):
+    q=deque()
+    q.append(x)
+    dis[x]=0
+    ans[x]=1
+    while(q):
+        cur=q.popleft()
+        if(st[cur]):
+            continue
+        st[cur]=1
+        for i in v[cur]:
+            if(dis[i]>dis[cur]+1):
+                dis[i] = dis[cur] + 1
+                ans[i]=ans[cur]
+                q.append(i)
+            elif(dis[i]==dis[cur]+1):
+                ans[i]+=ans[cur]
+                ans[i]%=100003
+
+bfs(1)
+
+for i in range(1,m+1):
+    print(ans[i])
+
+
+
+
+
