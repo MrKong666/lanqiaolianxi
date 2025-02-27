@@ -1,0 +1,93 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=1e6+10,mod=1e5+3;
+int n,m,k;
+int zuo,you;
+ll ans=0,sum=0;
+int v[N];
+ 
+ 
+signed main()
+{	
+	cin>>n>>k;
+	set<int>s;
+	for(int i=0;i<n;i++){
+		cin>>v[i];
+		s.insert(v[i]);
+	}
+ 	 
+	while(--k){
+		int t=*s.begin();s.erase(s.begin());
+		for(int i=0;i<n;i++){
+			ans=v[i]*t;
+			if(ans<=2e9){
+				s.insert(ans);
+			}
+		}
+	} 
+	cout<<*s.begin();
+	return 0;	
+}
+（暴力骗分只能90，需要优化，oi拿90也行了）
+下面是ac代码
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=1e6+10,mod=1e5+3;
+int n,m,k;
+int zuo,you;
+ll ans=0,sum=0;
+int v[N];
+ 
+ 
+signed main()
+{	
+	cin>>n>>k;
+	set<int>s;
+	for(int i=0;i<n;i++){
+		cin>>v[i];
+		s.insert(v[i]);
+	}
+ 	 
+ 	sort(v,v+n);
+ 	int mx=1,flag=1;
+	for(int i=1;i<k;i++){
+		int t=*s.begin();s.erase(s.begin());
+		for(int i=0;i<n&&v[i]*t<=2e9;i++){
+			ans=v[i]*t;
+			if(flag||ans<=mx  ){
+				s.insert(ans);
+				mx=max(ans,mx);
+			}
+			else break;
+		}
+		flag=(s.size()+i<k);
+		 
+		 
+		
+	}
+		
+	
+	cout<<*s.begin();
+	return 0;	
+}
+ 
+ 
+
+py： （py大帝无能为力）
+py写这种暴力不太行，这题有点难，不行就算了，看到这条私我，请你喝水（2025.4.13前）
+
+ 
+
+
+
+
+
