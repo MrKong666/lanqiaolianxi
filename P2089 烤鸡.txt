@@ -1,0 +1,74 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=1e6+10,mod=1e5+3;
+int n,m,k;
+int zuo,you;
+//ll ans=0;
+vector<vector<int>>ans;
+vector<int>v;
+void dfs(int x,int sum){
+	if(x>=10){
+		if(sum==n){
+			ans.push_back(v);
+		}
+		return;
+	}
+	for(int i=1;i<4;i++){
+		v.push_back(i);
+		dfs(x+1,sum+i);
+		v.pop_back();
+	}
+}
+signed main()
+{	
+	cin>>n;
+	dfs(0,0);
+	if(ans.size()==0)cout<<0;
+	else{
+		cout<<ans.size()<<"\n";
+		for(auto&i:ans){
+			for(auto&j:i)cout<<j<<" ";
+			cout<<"\n";
+		}
+	}
+	return 0;	
+}
+ 
+ 
+
+py： 
+import sys
+from cmath import inf, sqrt
+from sys import stdin
+from collections import deque
+from collections import defaultdict
+sys.setrecursionlimit(1000000000)
+n=int(input())
+ans=[]
+v=[]
+def dfs(x,sum):
+    if(x>=10):
+        if(sum==n):
+            ans.append(v.copy())
+        return
+    for i in range(1,4):
+        v.append(i)
+        dfs(x+1,sum+i)
+        v.pop()
+dfs(0,0)
+print(len(ans))
+for i in ans:
+    for j in i:
+        print(j,end=" ")
+    print()
+ 
+
+
+
+
+
