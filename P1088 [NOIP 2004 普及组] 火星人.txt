@@ -1,0 +1,96 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=1e6+10,mod=1e5+3;
+int n,m,k;
+int zuo,you;
+ll ans=0;
+int v[N];
+bool st[N];
+vector<vector<int>>res;
+vector<int>path;
+void dfs(int x){
+	if(x>=n){
+		ans++;
+		if(ans==k+1){
+			
+			for(auto&i:path)cout<<i<<" ";
+			m=1;
+		}
+		return;
+	}
+	if(m)return;
+	for(int i=1;i<=n;i++){
+		if(!ans)i=v[x];
+		if(!st[i]){
+			st[i]=1;
+			path.push_back(i);
+			dfs(x+1);
+			st[i]=0;
+			path.pop_back();
+		}
+	}
+	
+}
+signed main()
+{	
+	cin>>n>>k;
+	for(int i=0;i<n;i++){
+		cin>>v[i];
+	}
+	 dfs(0);
+	return 0;	
+}
+ 
+ 
+
+py： 
+import sys
+from cmath import inf, sqrt
+from sys import stdin
+from collections import deque
+from collections import defaultdict
+sys.setrecursionlimit(1000000000)
+n=int(input())
+k=int(input())
+ans=0
+v=list(map(int,input().split()))
+path=[]
+st=[0 for i in range(n+10)]
+flag=0
+res=[]
+def dfs(x):
+    global ans,flag,path
+    if(x>=n):
+        ans+=1
+        if(ans==k+1):
+            for i in path:
+                print(i,end=" ")
+            flag=15
+            exit()
+        return
+    if(flag):
+        return
+    i=1
+    while(i<=n):
+        if(ans==0):
+            i=v[x]
+        if(st[i]==0):
+            st[i]=1
+            path.append(i)
+            dfs(x+1)
+            path.pop()
+            st[i]=0
+        i+=1
+dfs(0)
+
+ 
+
+
+
+
+
