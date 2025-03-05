@@ -1,0 +1,64 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=1e6+10,mod=1e5+3;
+int n,m,k;
+int zuo,you;
+ll ans=0;
+int v[11000]={6,2,5,5,4,5,6,3,7,6}; 
+int v1[100];
+void dfs(int x,int sum){
+	if(sum>n)return;
+	if(x>=3){
+		if(sum==n&&v1[0]+v1[1]==v1[2]){
+			ans++;
+	//	cout<<v1[0]<<" "<<v1[1]<<" "<<v1[2]<<"\n";
+		}
+		return ;
+	}
+	for(int i=0;i<1000;i++){
+		v1[x]=i;
+		dfs(x+1,sum+v[i]);
+	}
+}
+signed main()
+{	
+	cin>>n;
+	n-=4;
+	for(int i=10;i<1000;i++){
+		v[i]=v[i/10]+v[i%10];
+	}
+	dfs(0,0);
+	cout<<ans;
+	return 0;	
+}
+ 
+ 
+
+py： （py大帝回溯过不了，只能写迭代了）
+import sys
+from cmath import inf, sqrt
+from sys import stdin
+from collections import deque
+from collections import defaultdict
+sys.setrecursionlimit(1000000000)
+n=int(input())
+ans=0
+he=[6,2,5,5,4,5,6,3,7,6]
+for i in range(10,2005):
+    he.append(he[i//10]+he[i%10])
+for i in range(1001):
+    for j in range(1001):
+        if he[i] + he[j] + he[i+j] + 4 == n:
+            ans += 1
+print(ans)
+
+
+
+
+
+
