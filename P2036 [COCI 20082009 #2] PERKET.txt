@@ -1,0 +1,80 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=1e6+10,mod=1e5+3;
+int n,m,k;
+int zuo,you;
+ll ans=0;
+vector<array<int,3>>v;
+vector<int>path;
+void dfs(int x){
+	if(x>=n){
+		int flag=0,suan=1,ku=0;
+		if(!path.size())return;
+		for(int i=0;i<path.size();i++){
+			suan*=v[path[i]][0];
+			ku+=v[path[i]][1];
+		}
+		ans=min(ans,abs(suan-ku));
+		return;
+	}
+	dfs(x+1);//不选
+	//选
+	path.push_back(x);
+	dfs(x+1);
+	path.pop_back(); 
+}
+signed main()
+{	
+	cin>>n;
+	 for(int i=0;i<n;i++){
+	 	int a,b;
+	 	cin>>a>>b;
+	 	v.push_back({a,b});
+	 }
+	 ans=INT_MAX;
+	 dfs(0);
+	 cout<<ans;
+	return 0;	
+}
+
+py： 
+import sys
+from cmath import inf, sqrt
+from sys import stdin
+from collections import deque
+from collections import defaultdict
+sys.setrecursionlimit(1000000000)
+n=int(input())
+ans=inf
+v=[]
+path=[]
+for i in range(n):
+    v.append(list(map(int,input().split())))
+def dfs(x):
+    global ans
+    if(x>=n):
+        if(not path):
+            return
+        suan,ku=1,0
+        for i in path:
+            suan*=v[i][0]
+            ku+=v[i][1]
+        ans=min(ans,abs(suan-ku))
+        return
+    dfs(x+1)
+    path.append(x)
+    dfs(x+1)
+    path.pop()
+dfs(0)
+print(ans)
+
+
+
+
+
+
