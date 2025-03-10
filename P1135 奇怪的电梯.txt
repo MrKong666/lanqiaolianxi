@@ -1,0 +1,71 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+//#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=220,mod=1e5+3;
+int n,m,k;
+int zuo,you;
+ll ans=0;
+int v[N],dis[N];
+int a,b;
+void dfs(int x,int sum){
+ 	 dis[x]=sum;
+ 	 int t=x+v[x];
+ 	 if(t<=n&&dis[t]>sum+1){
+ 	 	dfs(t,sum+1); 
+	  }
+	  t=x-v[x];
+	  if(t>0&&dis[t]>sum+1){
+	  	dfs(t,sum+1);
+	  } 
+	  return;
+}
+signed main()
+{	
+	cin>>n>>a>>b;
+	 for(int i=1;i<=n;i++)cin>>v[i];
+	  memset(dis,0x3f,sizeof dis);
+	 dfs(a,0);
+	 if(dis[b]==0x3f3f3f3f)cout<<-1;
+	 else cout<<dis[b];
+	 
+	return 0;	
+}
+
+py： 
+import sys
+from cmath import inf, sqrt
+from functools import lru_cache
+
+from sys import stdin
+from collections import deque
+from collections import defaultdict
+sys.setrecursionlimit(1000000000)
+n,a,b=list(map(int,input().split()))
+v=list(map(int,input().split()))
+v.insert(0,0)
+dis=[inf]*(200+10)
+def dfs(x,sum):
+    dis[x]=sum
+    t=x+v[x]
+    if(t<=n and dis[t]>sum+1):
+        dfs(t,sum+1)
+    t=x-v[x]
+    if(t>0 and dis[t]>sum+1):
+        dfs(t,sum+1)
+    return
+dfs(a,0)
+if(dis[b]==inf):print(-1)
+else:print(dis[b])
+
+
+
+
+
+
+
+
+
