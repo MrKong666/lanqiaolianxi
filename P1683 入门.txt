@@ -1,0 +1,85 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+//#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=220,mod=1e5+3;
+int n,m,k;
+int zuo,you;
+ll ans=0;
+vector<string>v;
+int dis[4][2]={1,0,-1,0,0,1,0,-1};
+bool st[200][200];
+void dfs(int x,int y){
+	if(x<0||y<0||x>=m||y>=n)return ;
+	if(v[x][y]=='#'||st[x][y])return ;
+	ans++;
+	st[x][y]=1;
+	for(int i=0;i<4;i++){
+		int nx=x+dis[i][0],ny=y+dis[i][1];
+		dfs(nx,ny);
+	}
+}
+signed main()
+{	
+	cin>>n>>m;
+	for(int i=0;i<m;i++){
+		string s;
+		cin>>s;
+		v.push_back(s);
+	}
+	for(int i=0;i<m;i++){
+		for(int j=0;j<n;j++){
+			if(v[i][j]=='@'){
+				dfs(i,j);
+				cout<<ans;
+				return 0;
+			}
+		}
+	}
+	 
+	return 0;	
+}
+
+py： 
+import sys
+from cmath import inf, sqrt
+from functools import lru_cache
+
+from sys import stdin
+from collections import deque
+from collections import defaultdict
+sys.setrecursionlimit(1000000000)
+n,m=list(map(int,input().split()))
+v=[]
+ans=0
+dis=[[1,0],[-1,0],[0,1],[0,-1]]
+st=[[0 for i in range(200)]for i in range(200)]
+def dfs(x,y):
+    global ans
+    if(x<0 or y<0 or x>=m or y>=n):return
+    if(v[x][y]=='#'or st[x][y]):return
+    ans+=1
+    st[x][y]=1
+    for i in dis:
+        nx,ny=x+i[0],y+i[1]
+        dfs(nx,ny)
+for i in range(m):
+    v.append(input())
+for i in range(m):
+    for j in range(n):
+        if(v[i][j]=="@"):
+            dfs(i,j)
+            print(ans)
+            exit(0)
+
+
+
+
+
+
+
+
+
