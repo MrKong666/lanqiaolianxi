@@ -1,0 +1,101 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+//#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=2200,mod=1e5+3;
+int n,m,k;
+int zuo,you;
+ll ans=0;
+ 
+int v[N][N];
+int d[N][N]; 
+int dis[4][2]={1,0,-1,0,0,1,0,-1};
+int bfs(){
+	queue<array<int,2>>q;
+	q.push({0,0});
+	d[0][0]=0;
+	while(q.size()){
+		auto cur=q.front();q.pop();
+		for(int i=0;i<4;i++){
+			int nx=cur[0]+dis[i][0],ny=cur[1]+dis[i][1];
+			if(nx<0||ny<0)continue;
+			if(d[nx][ny]>=0||d[cur[0]][cur[1]]+1>=v[nx][ny])continue;
+			d[nx][ny]=d[cur[0]][cur[1]]+1;
+			q.push({nx,ny});
+			if(v[nx][ny]==0x3f3f3f3f){
+			//	cout<<nx<<" "<<ny;
+				return d[nx][ny];
+			}
+		}
+	}
+	return -1;
+}
+signed main()
+{	
+ 	 memset(v,0x3f,sizeof v);
+ 	 memset(d,-1,sizeof d);
+ 	 cin>>n;
+ 	 for(int i=0;i<n;i++){
+ 	 	int a,b,c;
+ 	 	cin>>a>>b>>c;
+ 	 	v[a][b]=min(v[a][b],c);
+ 	 	for(int j=0;j<4;j++){
+ 	 		int nx=a+dis[j][0],ny=b+dis[j][1];
+ 	 		if(nx<0||ny<0||nx>400||ny>400)continue;
+ 	 		v[nx][ny]=min(v[nx][ny],c);
+		  }
+	  }
+	
+	  cout<<bfs();
+	return 0;	
+}
+py： 
+import sys
+from cmath import inf, sqrt
+from functools import lru_cache
+
+from sys import stdin
+from collections import deque
+from collections import defaultdict
+sys.setrecursionlimit(1000000000)
+ans=0
+n=int(input())
+dis=[[1,0],[-1,0],[0,1],[0,-1]]
+v=[[inf]*400 for i in range(400)]
+juli=[[-1]*400 for i in range(400)]
+for i in range(n):
+    a,b,c=list(map(int,input().split()))
+    v[a][b]=min(v[a][b],c)
+    for j in dis:
+        nx,ny=a+j[0],b+j[1]
+        if(nx<0 or ny<0 or nx >400 or ny>400):continue
+        v[nx][ny]=min(v[nx][ny],c)
+def bfs():
+    juli[0][0]=0
+    q=deque()
+    q.append([0,0])
+    while(q):
+        cur=q.popleft()
+        for i in dis:
+            nx,ny=cur[0]+i[0],cur[1]+i[1]
+            if(nx<0 or ny<0 or nx>=400 or ny>=400):continue
+            if(juli[nx][ny]>=0):continue
+            if(juli[cur[0]][cur[1]]+1>=v[nx][ny]):continue
+            juli[nx][ny]=juli[cur[0]][cur[1]]+1
+            q.append([nx,ny])
+            if(v[nx][ny]==inf):return juli[nx][ny]
+    return -1
+ 
+print(bfs())
+
+
+
+
+
+
+
+
+
