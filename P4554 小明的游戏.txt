@@ -1,0 +1,111 @@
+cpp：
+#include<bits/stdc++.h>
+using namespace std;
+//#define int long long
+typedef pair<int,int> PII; 
+using ll=long long;
+ 
+const int N=2200,mod=1e5+3;
+int n,m,k;
+int zuo,you;
+ll ans=0;
+int lubiao;
+char v[N][N];
+
+bool st[N][N];
+int dis[4][2]={1,0,-1,0,0,1,0,-1};
+ 
+ 
+int x,y,x2,y2;
+int bfs(int x,int y){
+	deque<array<int,3>>q;
+	memset(st,0,sizeof st);
+	q.push_back({x,y,0});
+	while(q.size()){
+		auto cur=q.front();q.pop_front();
+		for(int i=0;i<4;i++){
+			int nx=cur[0]+dis[i][0],ny=cur[1]+dis[i][1];
+			if(nx<0||ny<0||nx>=m||ny>=n)continue;
+			if(st[nx][ny])continue;
+			st[nx][ny]=1;
+			if(v[nx][ny]==v[cur[0]][cur[1]]){
+				q.push_front({nx,ny,cur[2]});
+				if(nx==x2&&ny==y2)return cur[2];
+			}
+			else{
+				q.push_back({nx,ny,cur[2]+1});
+				if(nx==x2&&ny==y2)return cur[2]+1;
+			}
+			
+		}
+	}
+	return -1;
+}
+signed main()
+{	
+ 
+ 	while(	cin>>m>>n,m&&n){
+ 		for(int i=0;i<m;i++){
+ 			for(int j=0;j<n;j++){
+ 				cin>>v[i][j];
+			 }
+		 }
+		 cin>>x>>y>>x2>>y2;
+		 cout<<bfs(x,y)<<endl;
+		 
+	 }
+ 	 
+	return 0;	
+}
+py： 
+import sys
+from cmath import inf, sqrt
+from functools import lru_cache
+
+from sys import stdin
+from collections import deque
+from collections import defaultdict
+sys.setrecursionlimit(1000000000)
+ans=0
+m,n=list(map(int,input().split()))
+v=[]
+st=[[0]*600 for i in range(600)]
+x=y=x1=y1=0
+dis=[[1,0],[-1,0],[0,1],[0,-1]]
+def bfs(x,y):
+    st = [[0] * 600 for i in range(600)]
+    q=deque()
+    st[x][y]=1
+    q.append([x,y,0])
+    while(q):
+        cur=q.popleft()
+        for i in dis:
+            nx,ny=cur[0]+i[0],cur[1]+i[1]
+            if(nx<0 or ny<0 or nx>=m or ny>=n):continue
+            if(st[nx][ny]):continue
+            st[nx][ny]=1
+            if(v[cur[0]][cur[1]]==v[nx][ny]):
+                q.appendleft([nx,ny,cur[2]])
+                if(nx==x1 and ny==y1):
+                    return cur[2]
+            else:
+                q.append([nx, ny, cur[2]+1])
+                if (nx == x1 and ny == y1):
+                    return cur[2]+1
+    return -1
+while(m and n):
+   v=[]
+   for i in range(m):
+       v.append(input())
+   x,y,x1,y1=list(map(int,input().split()))
+   print(bfs(x,y))
+   m, n = list(map(int, input().split()))
+
+
+
+
+
+
+
+
+
