@@ -1,0 +1,94 @@
+cpp：
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+#include<bits/stdc++.h> 
+using namespace std;
+int n;
+
+unordered_map<string,int>mp;
+string s,end1="123804765";
+int dis[4][2]={1,0,-1,0,0,1,0,-1};
+int bfs(string s){
+	queue<string>q;
+	q.push(s);
+	mp[s]=0;
+	while(q.size()){
+		auto cur=q.front();
+		q.pop();
+		if(cur==end1){
+			return mp[cur];
+		}
+		int d=mp[cur];
+		int a=cur.find('0');
+		int x=a/3,y=a%3;
+		int temp=x*3+y;
+		for(int i=0;i<4;i++){
+			int nx=x+dis[i][0],ny=y+dis[i][1];
+			if(nx<0||ny<0||nx>2||ny>2)continue;
+			swap(cur[temp],cur[nx*3+ny]);
+			if(!mp.count(cur)){
+				mp[cur]=d+1;
+				q.push(cur);
+			}
+			swap(cur[temp],cur[nx*3+ny]);
+		}
+	}
+	return -1;
+}
+signed main()
+{
+    cin>>s;
+    cout<<bfs(s);
+    return 0;
+}
+py： 
+import sys
+from cmath import inf, sqrt
+from functools import lru_cache
+
+from sys import stdin
+from collections import deque
+from collections import defaultdict
+sys.setrecursionlimit(1000000000)
+a="123"
+
+def swap(s,i,j):
+    v=list(s)
+    v[i],v[j]=v[j],v[i]
+    return ''.join(v)
+s=input()
+end="123804765"
+mp=defaultdict(str)
+dis=[[1,0],[-1,0],[0,1],[0,-1]]
+def bfs(s:str):
+    q=deque()
+    q.append(s)
+    mp[s]=0
+    while(q):
+        cur=q.popleft()
+        d=mp[cur]
+        a=cur.find('0')
+        x,y=a//3,a%3
+        if(cur==end):
+            return mp[cur]
+        for i in dis:
+            nx,ny=x+i[0],y+i[1]
+            if(nx<0 or ny<0 or nx>2 or ny >2):
+                continue
+            cur=swap(cur,3*x+y,3*nx+ny)
+            if(cur not in mp):
+                mp[cur]=d+1
+                q.append(cur)
+            cur=swap(cur, 3 * x + y, 3 * nx + ny)
+    return -1
+print(bfs(s))
+
+
+
+
+
+
+
+
+
