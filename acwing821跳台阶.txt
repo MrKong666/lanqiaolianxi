@@ -1,0 +1,46 @@
+cpp：
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+#include<bits/stdc++.h> 
+using namespace std;
+#define int long long
+const int N=1e6+10;
+int n,m,k;
+ int v[N] ;
+int ans=0;
+int q[N],hou[N];
+int dfs(int x){
+	if(x<0)return 0;
+	if(x<=1)return 1;
+	int&ans=v[x];
+	if(ans!=-1)return ans;
+	return ans=dfs(x-1)+dfs(x-2);
+
+}
+signed main()
+{
+	memset(v,-1,sizeof v);
+    cin>>n;
+    cout<<dfs(n);
+	 
+	 
+    return 0;
+}
+py： 
+ 
+from functools import lru_cache
+
+n=int(input())
+
+@lru_cache(maxsize=None)
+def dfs(x):
+    if(x<0):return 0
+    if(x<2):return 1
+    return dfs(x-2)+dfs(x-1)
+print(dfs(n))
+
+
+
+
+
