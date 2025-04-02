@@ -1,0 +1,65 @@
+cpp：
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+#include<bits/stdc++.h> 
+using namespace std;
+//#define int long long
+const int N=1e6+10;
+int n,m,k;
+array<int,3> v[1100] ;
+
+int ans=0;
+int memo[1100][110][110];
+int dfs(int x,int zl,int tj){
+	if(x>=n){
+		return 0;
+	}
+	int&ans=memo[x][zl][tj];
+	if(ans!=-1)return ans;
+	ans=0;
+	if(zl>=v[x][1]&&tj>=v[x][0])
+	ans=max(dfs(x+1,zl,tj),
+	dfs(x+1,zl-v[x][1],tj-v[x][0])+v[x][2]);
+	else ans=dfs(x+1,zl,tj);
+	return ans;
+}
+signed main()
+{
+	memset(memo,-1,sizeof memo);
+	 cin>>n>>k>>m;
+	 for(int i=0;i<n;i++){
+	 	int a,b,c;cin>>a>>b>>c;
+	 	v[i]={a,b,c};
+	 }
+	 cout<<dfs(0,m,k);
+	
+	
+    return 0;
+}
+py： （py大帝无能为力）
+ 
+import sys
+from functools import lru_cache
+
+sys.setrecursionlimit(200000)  # 根据需要设置更高的递归深度
+
+n,k,m=map(int,input().split())
+v=[]
+for i in range(n):
+    v.append(list(map(int,input().split())))
+
+
+@lru_cache(maxsize=None)
+def dfs(x,zl,tj):
+    if(x>=n):return 0
+    ans=0
+    if(zl>=v[x][1] and tj>=v[x][0]):
+        ans=max(dfs(x+1,zl,tj),dfs(x+1,zl-v[x][1],tj-v[x][0])+v[x][2])
+    else:ans=dfs(x+1,zl,tj)
+    return  ans
+print(dfs(0,m,k))
+
+
+
+
