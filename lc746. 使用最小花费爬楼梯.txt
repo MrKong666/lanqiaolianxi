@@ -1,0 +1,29 @@
+cpp：
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n=cost.size();
+        vector<int>memo(n+10,-1);
+        auto f=[&](this auto&&f,int x){
+            if(x<=1)return 0;
+            int&ans=memo[x];
+            if(ans!=-1)return ans;
+            return ans=min(f(x-1)+cost[x-1],f(x-2)+cost[x-2]);
+        };
+        return f(n);
+    }
+};
+py： （力扣是py最好的语言）
+ 
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        n=len(cost)
+        @cache
+        def f(x):
+            if(x<=1):return 0
+            return min(f(x-1)+cost[x-1],f(x-2)+cost[x-2])
+        return f(n)
+
+
+
+
