@@ -1,0 +1,63 @@
+cpp：
+前缀和写法
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int n=nums.size();
+        int sum=0,mi=0,ans=INT_MIN;
+        for(int i:nums){
+            sum+=i;
+            ans=max(ans,sum-mi);
+            mi=min(mi,sum);
+        }
+        return ans;
+    }
+};
+擦车写法
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int n=nums.size();
+        vector<int>memo(n,-1);
+        auto f=[&](this auto&&f,int x){
+            if(x<0)return 0;
+            int&ans=memo[x];
+            if(ans!=-1)return ans;
+            return ans=max(0,f(x-1))+nums[x];
+        };
+        int ans=INT_MIN;
+        for(int i=0;i<n;i++){
+            ans=max(ans,f(i));
+        }
+        return ans;
+    }
+};
+py： （力扣是py最好的语言）
+ 擦车写法
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        ans=-inf
+        n=len(nums)
+        @cache
+        def f(x):
+            if(x<0):return 0
+            return max(f(x-1),0)+nums[x]
+        for i in range(n):
+            ans=max(ans,f(i))
+        return ans
+前缀和写法
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        ans,sum=-inf,0
+        mi=0
+        for i in nums:
+            sum+=i
+            ans=max(ans,sum-mi)
+            mi=min(mi,sum)
+        return ans
+         
+
+
+
+
+
